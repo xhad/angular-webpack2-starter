@@ -8,11 +8,14 @@
 
 import { NgModule } from '@angular/core';
 
-import { UniversalModule } from 'angular2-universal';
+// for AoT we need to manually split universal packages
+import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node';
+
 
 import { APP_DECLARATIONS } from './app.declarations';
 import { APP_IMPORTS } from './app.imports';
 import { APP_PROVIDERS } from './app.providers';
+import { Cache } from './universal-cache';
 
 import { AppComponent } from './app.component';
 
@@ -26,6 +29,21 @@ import { AppComponent } from './app.component';
     UniversalModule // NodeModule, NodeHttpModule, and NodeJsonpModule are included
   ],
   bootstrap: [AppComponent],
-  providers: [APP_PROVIDERS]
+  providers: [
+    APP_PROVIDERS,
+    { provide: 'isBrowser', useValue: isBrowser },
+    { provide: 'isNode', useValue: isNode },
+    Cache
+  ]
 })
-export class AppModule { }
+export class AppNodeModule {
+  constructor(public cache: Cache) {}
+  // we need to use the arrow function here to bind the context as this is a gotcha in 
+  // Universal for now until it's fixed
+  universalDoDehydrate = (universalCache) => {
+    universalCache['Cache'] = JSON.stringify(this.cache.dehydrate());
+  }
+  universalAfterDehydrate = () => {
+    this.cache.clear();
+  }
+}

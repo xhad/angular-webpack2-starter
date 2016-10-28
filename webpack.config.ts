@@ -120,10 +120,10 @@ const commonConfig = function webpackConfig(): WebpackConfig {
       {
         test: /\.ts$/,
         loaders: [
-          '@angularclass/hmr-loader',
+          // '@angularclass/hmr-loader',
           'awesome-typescript-loader',
           'angular2-template-loader',
-          'angular2-router-loader?loader=system&genDir=src/compiled/src/app&aot=' + AOT
+          // 'angular2-router-loader?loader=system&genDir=src/compiled/src/app&aot=' + AOT
         ],
         exclude: [/\.(spec|e2e|d)\.ts$/]
       },
@@ -136,8 +136,10 @@ const commonConfig = function webpackConfig(): WebpackConfig {
 
   config.plugins = [
     new ContextReplacementPlugin(
-      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-      root('./src')
+      // The (\\|\/) piece accounts for path separators in *nix and Windows
+      /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
+      root('./src'),
+      {}
     ),
     new ProgressPlugin(),
     new ForkCheckerPlugin(),
@@ -180,10 +182,10 @@ const commonConfig = function webpackConfig(): WebpackConfig {
   if (PROD) {
     config.plugins.push(
       new NoErrorsPlugin(),
-      new UglifyJsPlugin({
-        beautify: false,
-        comments: false
-      }),
+      // new UglifyJsPlugin({
+      //   beautify: false,
+      //   comments: false
+      // }),
       new CompressionPlugin({
         asset: '[path].gz[query]',
         algorithm: 'gzip',
@@ -311,6 +313,16 @@ const serverConfig: WebpackConfig = {
   },
   externals: includeClientPackages([
     // include these client packages so we can transform their source with webpack loaders
+    // '@ng-bootstrap/ng-bootstrap',
+    '@angular/common',
+    '@angular/compiler',
+    '@angular/core',
+    '@angular/forms',
+    '@angular/http',
+    '@angular/platform-browser',
+    '@angular/platform-browser-dynamic',
+    '@angular/platform-server',
+    '@angular/router',
     ...MY_SERVER_INCLUDE_CLIENT_PACKAGES
   ]),
   node: {

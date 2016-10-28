@@ -15,7 +15,7 @@ import { enableProdMode } from '@angular/core';
 import { createEngine } from 'angular2-express-engine';
 
 // App
-import { AppModule } from './app/app.module.universal.node';
+import { AppNodeModule } from './app/app.module.universal.node';
 import { routes } from './server.routes';
 import { HOST, UNIVERSAL_PORT } from '../constants';
 
@@ -26,7 +26,10 @@ const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
 
 // Express View
-app.engine('.html', createEngine({}));
+app.engine('.html', createEngine({
+  precompile: true,
+  ngModule: AppNodeModule
+}));
 app.set('views', __dirname);
 app.set('view engine', 'html');
 app.use(compression());
@@ -42,7 +45,6 @@ function ngApp(req, res) {
   res.render('index', {
     req,
     res,
-    ngModule: AppModule,
     preboot: true,
     baseUrl: '/',
     requestUrl: req.originalUrl,

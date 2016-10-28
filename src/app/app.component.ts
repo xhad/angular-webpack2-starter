@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+// import { ActivatedRoute, Router } from '@angular/router';
 
 import { views } from './app-nav-views';
 import { MOBILE } from './services/constants';
@@ -19,8 +19,8 @@ export class AppComponent {
   views = views;
 
   constructor(
-    public route: ActivatedRoute,
-    public router: Router
+    // public route: ActivatedRoute,
+    // public router: Router
   ) { }
 
   activateEvent(event) {

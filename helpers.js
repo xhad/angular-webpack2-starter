@@ -16,9 +16,13 @@ function checkNodeImport(context, request, cb) {
 }
 
 function includeClientPackages(packages) {
-  return function (context, request, cb) {
-    if (packages && packages.indexOf(request) !== -1) {
-      return cb();
+  return function(context, request, cb) {
+    if (packages) {
+      if (packages instanceof RegExp && packages.test(request)) {
+        return cb();
+      } else if (typeof packages === 'string' && packages.indexOf(request) !== -1) {
+        return cb();
+      }
     }
     return checkNodeImport(context, request, cb);
   };

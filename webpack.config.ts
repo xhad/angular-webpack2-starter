@@ -307,24 +307,11 @@ const serverConfig: WebpackConfig = {
   },
   module: {
     rules: [
-      { test: /ng-bootstrap/, loader: 'imports-loader?window=>global' },
+      { test: /@angular(\\|\/)material/, loader: 'imports-loader?window=>global' },
       ...MY_SERVER_RULES
     ],
   },
-  externals: includeClientPackages([
-    // include these client packages so we can transform their source with webpack loaders
-    // '@ng-bootstrap/ng-bootstrap',
-    '@angular/common',
-    '@angular/compiler',
-    '@angular/core',
-    '@angular/forms',
-    '@angular/http',
-    '@angular/platform-browser',
-    '@angular/platform-browser-dynamic',
-    '@angular/platform-server',
-    '@angular/router',
-    ...MY_SERVER_INCLUDE_CLIENT_PACKAGES
-  ]),
+  externals: includeClientPackages(/@angular|angular2-|ng2-|ng-|angular-|@ngrx|@angular2|ionic|-angular2|-ng2|-ng/),
   node: {
     global: true,
     __dirname: true,

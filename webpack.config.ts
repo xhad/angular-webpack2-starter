@@ -80,16 +80,6 @@ const DLL_VENDORS = [
   '@angular/platform-browser-dynamic',
   '@angular/platform-server',
   '@angular/router',
-  '@ngrx/core',
-  '@ngrx/core/add/operator/select.js',
-  '@ngrx/effects',
-  '@ngrx/router-store',
-  '@ngrx/store',
-  '@ngrx/store-devtools',
-  '@ngrx/store-log-monitor',
-  '@ng-bootstrap/ng-bootstrap',
-  'ngrx-store-freeze',
-  'ngrx-store-logger',
   'rxjs',
   ...MY_VENDOR_DLLS
 ];

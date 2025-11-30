@@ -90,7 +90,7 @@
     "universal:watch": "npm run build:universal && npm-run-all -p -r watch:universal server:universal"
   },
   "dependencies": {
-    "@angular/common": "2.1.0",
+    "@angular/common": "19.2.16",
     "@angular/compiler": "2.1.0",
     "@angular/compiler-cli": "2.1.0",
     "@angular/core": "2.1.0",
